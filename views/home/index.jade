@@ -5,28 +5,27 @@ block styles
   link(href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css')
 
 block body
-  body(onload='initialize()')
-    #fb-root
-      .content
-        .header 
-          .title Get First 
-          .menu-bar
-            ul
-              li
-                a.btn.btn-danger home
-              li
-                a.btn.btn-primary(href='javascript:FB.login();') introduction
-              li 
-                a.btn.btn-info(href='javascript:testAPI();') set
-              li
-                .fb-login-button(data-max-rows="1" data-size="medium" data-auto-logout-link="true" scope="publish_actions")
-        .main
-          .sideBar
-            ul
-              li
-                a#get-checkins.btn.btn-danger btn1
-              li
-                a#get-info.btn.btn-info btn2
-              li
-                a#get-access-token.btn.btn-default get access token
+  #fb-root
+    .content
+      .header 
+        .title Get First 
+        .menu-bar
+          ul
+            li
+              a.btn.btn-danger home
+            li
+              a.btn.btn-primary(href='javascript:FB.login();') introduction
+            li 
+              a.btn.btn-info(href='javascript:testAPI();') set
+            li
+              .fb-login-button(data-max-rows="1" data-size="medium" data-auto-logout-link="true" scope="publish_actions")
+      .main
+        .sideBar
+          ul
+            li
+              a#get-checkins.btn.btn-danger btn1
+            li
+              a#get-info.btn.btn-info btn2
+            li
+              a#get-access-token.btn.btn-default get access token
 
