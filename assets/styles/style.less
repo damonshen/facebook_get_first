@@ -1,0 +1,56 @@
+@import './grid.less';
+@import '../js/plugins/bootstrap/dist/css/bootstrap.min.css';
+@import '../js/plugins/3l/3L/3L.less';
+
+@total-width: 100%;
+
+//initialize for google map
+
+
+.content{
+  background-color: #bbbbbb;
+  .column(8);
+  .push(2);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.header{
+  .row(8);
+  font-size: 50px;
+  text-align: center;
+  .title{
+    margin-top: 20px;
+  }
+}
+
+.menu-bar{
+  ul li{
+    .column(2,8);
+    a{
+      .column(2,2);
+      overflow: hidden;
+    }
+    padding: 5px;
+    text-align: center;
+    ul li{
+      .row(2);
+      .column(2,2);
+    }
+  }
+}
+
+.main{
+  .row(8);
+  background-color: #555555;
+  .sidebar{
+    .column(8,8);
+    ul{
+      .row(8);
+      li{
+          .column(2,8);
+        a{
+        }
+      }
+    }
+  }
+}
