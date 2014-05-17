@@ -1,0 +1,22 @@
+{
+  "name": "facebook_get_first",
+  "version": "0.0.0",
+  "homepage": "https://github.com/damonshen/facebook_get_first",
+  "authors": [
+    "damonshen <thanatos1710@hotmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "assets/js/plugins",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "3l": "~1.4.4",
+    "bootstrap": "~3.1.1",
+    "jquery": "~2.1.1"
+  }
+}
