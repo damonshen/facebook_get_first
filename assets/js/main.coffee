@@ -48,7 +48,20 @@ comment = ()->
       console.log JSON.stringify response
   )
 
+#get the ID of the page 
+getPageID = (url)->
+  id = url.substring(url.lastIndexOf('/'))
+  graphUrl = "https://graph.facebook.com/#{id}"
+  $.ajax(
+    url: graphUrl,
+    success: (data)->
+      console.log data
+  )
 
+#when search button is click
+#call the getPageID ti get the ID of the page
+$('.searchBtn').click ()->
+  getPageID($('input[name=searchString]').val())
 
 $('#get-checkins').click ()->
   getCheckins()
