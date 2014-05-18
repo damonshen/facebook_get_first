@@ -51,11 +51,23 @@ comment = ()->
 #get the ID of the page 
 getPageID = (url)->
   id = url.substring(url.lastIndexOf('/'))
-  graphUrl = "https://graph.facebook.com/#{id}"
+  graphUrl = "https://graph.facebook.com#{id}"
   $.ajax(
     url: graphUrl,
     success: (data)->
-      console.log data
+      console.log data.id
+      id = data.id
+      FB.api("/#{id}?fields=posts.limit(5)",
+        (response)->
+          console.log response.posts.data.length
+          #console.log JSON.stringify response
+          for key, val of response.posts.data
+            console.log val.created_time
+            console.log val.link + val.type
+            $('.postPage').append("<div class=\"fb-post\" data-href=#{val.link} data-width=\"500\"></div>")
+            $('.postPage').append("<div> 123</div>")
+          FB.XFBML.parse($('.postPage').get(0))
+      )
   )
 
 #when search button is click
