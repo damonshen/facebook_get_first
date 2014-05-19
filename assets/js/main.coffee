@@ -30,14 +30,13 @@ getPageID = (url)->
       FB.api("/#{id}?fields=posts.limit(5)",
         (response)->
           console.log response.posts.data.length
-          #console.log JSON.stringify response
           for key, val of response.posts.data
             console.log val.created_time
             console.log val.link
             #if the post has link, the link will be the url of this post
             if val.link isnt undefined
               $('.postPage').append("<div class=\"fb-post\" data-href=#{val.link} data-width=\"100%\"></div>")
-              comment(val.id,"nice")
+              compareTime(val.created_time,new Date())
             else
               for actionKey, actionVal of val.actions
                 console.log actionKey + " " + JSON.stringify actionVal
@@ -47,6 +46,15 @@ getPageID = (url)->
           FB.XFBML.parse($('.postPage').get(0))
       )
   )
+
+#compare the time of the post tp the beginning time
+compareTime = (pTime, sTime, callback)->
+  postTime = new Date pTime
+  startTime = new Date sTime
+  if postTime > startTime
+    console.log 'comment!!!'
+  else
+    console.log 'old post'
 
 #when search button is click
 #call the getPageID ti get the ID of the page
