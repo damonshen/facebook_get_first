@@ -19,14 +19,15 @@ comment = (postID, message)->
 
 #get the ID of the page 
 getPageID = (url)->
-  id = url.substring(url.lastIndexOf('/'))
-  graphUrl = "https://graph.facebook.com#{id}"
+  pageId = url.substring(url.lastIndexOf('/'))
+  graphUrl = "https://graph.facebook.com#{pageId}"
   #send ajax request for the ID of this page
   $.ajax(
     url: graphUrl,
     success: (data)->
       console.log data.id
       id = data.id
+      userName = data.username
       FB.api("/#{id}?fields=posts.limit(5)",
         (response)->
           console.log response.posts.data.length
@@ -34,15 +35,15 @@ getPageID = (url)->
             console.log val.created_time
             console.log val.link
             #if the post has link, the link will be the url of this post
-            if val.link isnt undefined
+            if val.link and String(val.link).search('facebook') > 0
               $('.postPage').append("<div class=\"fb-post\" data-href=#{val.link} data-width=\"100%\"></div>")
               compareTime(val.created_time,new Date())
             else
               for actionKey, actionVal of val.actions
-                console.log actionKey + " " + JSON.stringify actionVal
-                if actionKey is 0
-                  $('.postPage').append("<div class=\"fb-post\" data-href=#{actionVal.link} data-width=\"100%\"></div>")
-                  console.log "actionlink=#{actionVal.link}"
+                if Number(actionKey) is 0
+                  $('.postPage').append("<div class=\"fb-post\" data-href=#{actionVal.link.replace(id,userName)} data-width=\"100%\"></div>")
+                  console.log "actionlink=#{actionVal.link.replace(id,userName)}"
+          #reload the post page to show the facebook posts
           FB.XFBML.parse($('.postPage').get(0))
       )
   )
@@ -58,8 +59,14 @@ compareTime = (pTime, sTime, callback)->
 
 #when search button is click
 #call the getPageID ti get the ID of the page
+trigger = false
 $('.searchBtn').click ()->
+  trigger = true
+  $('.postPage').html('')
   getPageID($('input[name=searchString]').val())
+
+$('.cancelBtn').click ()->
+  trigger = false
 
 $('#get-checkins').click ()->
   getCheckins()
