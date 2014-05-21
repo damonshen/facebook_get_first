@@ -43,25 +43,27 @@ getPage = (url)->
               #if the post has link, the link will be the url of this post
               if val.link and String(val.link).search('facebook') > 0
                 $('.postPage').append("<div class=\"fb-post\" data-href=#{val.link} data-width=\"100%\"></div>")
-                compareTime(val.created_time,new Date())
               else
                 for actionKey, actionVal of val.actions
                   if Number(actionKey) is 0
                     $('.postPage').append("<div class=\"fb-post\" data-href=#{actionVal.link.replace(id,userName)} data-width=\"100%\"></div>")
                     console.log "actionlink=#{actionVal.link.replace(id,userName)}"
+              compareTime(val.created_time, (response)->
+                if response is true
+                  comment(postID,$('input[name=message]').val())
+              )
           #reload the post page to show the facebook posts
           FB.XFBML.parse($('.postPage').get(0))
       )
   )
 
 #compare the time of the post tp the beginning time
-compareTime = (pTime, sTime, callback)->
+compareTime = (pTime, callback)->
   postTime = new Date pTime
-  startTime = new Date sTime
   if postTime > startTime
-    console.log 'comment!!!'
+    callback? true
   else
-    console.log 'old post'
+    callback? false
 
 
 refreshPageInfo = ()->
@@ -70,9 +72,16 @@ refreshPageInfo = ()->
 #when search button is click
 #call the getPageID ti get the ID of the page
 exe = null
+#the time start executing
+startTime = null
 $('.searchBtn').click ()->
-  $('.postPage').html('')
-  exe = setInterval("refreshPageInfo()", 5000)
+  FB.getLoginStatus (response) ->
+    if response.status is "connected"
+      $('.postPage').html('')
+      startTime = new Date()
+      exe = setInterval("refreshPageInfo()", 3000)
+    else
+      alert 'please login first'
 
 $('.cancelBtn').click ()->
   clearInterval(exe)
